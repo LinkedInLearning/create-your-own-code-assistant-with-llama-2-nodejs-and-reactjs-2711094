@@ -1,0 +1,29 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "the server for our ai",
+  "main": "index.ts",
+  "scripts": {
+    "test": "vitest",
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@fastify/vite": "^5.0.6",
+    "env-schema": "^5.2.1",
+    "fastify": "^4.26.0",
+    "node-fetch": "^3.3.2",
+    "ollama-node": "^0.1.27",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "typescript": "^5.3.3"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.13",
+    "vite": "^5.0.12",
+    "vite-plugin-node": "^3.1.0"
+  }
+}

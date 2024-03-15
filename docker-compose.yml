@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  server:
+    env_file:
+      - .env
+    build: 
+      context: ./
+      dockerfile: .dockerfiles/server.dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./server:/app
+    command: ["npx", "vite"]
+    environment:
+      OLLAMA_URL: "${OLLAMA_URL}"
+
+  ollama:
+    env_file:
+      - .env
+    image: ollama/ollama:latest
+    ports:
+      - "11434:11434"
+volumes:
+  server:
+  shared-config: # Optional for persistent data/configs (adjust paths)
+  app:
+  # frontend:
+  #   build: .dockerfiles/frontend
+  #   ports:
+  #     - "3001:3001"
+  #   volumes:
+  #     - app:/frontend
+  #   environment:
+  #     OLLAMA_URL: "${OLLAMA_URL}"
+  #     API_URL: "${API_URL}"
+
