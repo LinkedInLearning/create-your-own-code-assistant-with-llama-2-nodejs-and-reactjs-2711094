@@ -5,7 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "test": "vitest",
-    "dev": "vite",
+    "start": "vite",
     "build": "vite build",
     "preview": "vite preview"
   },
@@ -13,6 +13,7 @@
   "license": "MIT",
   "dependencies": {
     "@fastify/vite": "^5.0.6",
+    "@langchain/community": "^0.0.39",
     "env-schema": "^5.2.1",
     "fastify": "^4.26.0",
     "node-fetch": "^3.3.2",
@@ -23,6 +24,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.11.13",
+    "pino-pretty": "^10.3.1",
     "vite": "^5.0.12",
     "vite-plugin-node": "^3.1.0"
   }

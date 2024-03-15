@@ -32,3 +32,12 @@ To resolve this issue:
 [lil-course-url]: https://www.linkedin.com/learning/
 [lil-thumbnail-url]: http://
 
+###
+install server side pacakges
+npm config --location=project set legacy-peer-deps=tru
+install i -D pino-pretty
+npm i @langchain/community
+build out basic server with endpoints for chat
+connect to ollama
+install global yomen generator for code extension
+select web extension.

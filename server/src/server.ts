@@ -3,7 +3,7 @@
 
 import envSchema from 'env-schema'
 import fastify from './app'
-import logger from 'utils/logger'
+import logger from '@utils/logger'
 
 const app = fastify({
   logger,
