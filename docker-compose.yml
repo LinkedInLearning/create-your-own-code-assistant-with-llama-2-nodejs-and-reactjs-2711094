@@ -14,17 +14,31 @@ services:
     command: ["npx", "vite"]
     environment:
       OLLAMA_URL: "${OLLAMA_URL}"
-
+      DB_URL: "${DB_URL}"
   ollama:
     env_file:
       - .env
     image: ollama/ollama:latest
     ports:
       - "11434:11434"
+  db:
+    image: ankane/pgvector
+    ports:
+      - 5432:5432
+    volumes:
+      - db:/var/lib/postgresql/data
+    env_file:
+      - .env
+    environment:
+      POSTGRES_USER: "${POSTGRES_USER}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_DB: "${POSTGRES_DB}"
+      POSTGRES_HOST_AUTH_METHOD: "trust"
 volumes:
   server:
   shared-config: # Optional for persistent data/configs (adjust paths)
   app:
+  db:
   # frontend:
   #   build: .dockerfiles/frontend
   #   ports:

@@ -4,6 +4,7 @@
   "description": "the server for our ai",
   "main": "index.ts",
   "scripts": {
+ 
     "test": "vitest",
     "start": "vite",
     "build": "vite build",

@@ -1,0 +1,13 @@
+{
+  "scripts": {
+    "start-all": "docker-compose up"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.24",
+    "prisma": "^5.11.0"
+  },
+  "dependencies": {
+    "@langchain/community": "^0.0.43",
+    "@prisma/client": "^5.11.0"
+  }
+}
