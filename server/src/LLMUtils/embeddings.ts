@@ -9,3 +9,5 @@ const embeddings = new OllamaEmbeddings({
   model: "llama2", // default value
   baseUrl: "http://localhost:11434", // default value
 });
+
+const loadWorkspace

@@ -4,10 +4,17 @@
   },
   "devDependencies": {
     "@types/node": "^20.11.24",
+    "eslint-plugin-functions": "^0.0.7",
     "prisma": "^5.11.0"
   },
   "dependencies": {
     "@langchain/community": "^0.0.43",
-    "@prisma/client": "^5.11.0"
+    "@nestjs/cli": "^10.3.2",
+    "@nestjs/config": "^3.2.1",
+    "@prisma/client": "^5.11.0",
+    "cosmiconfig": "^9.0.0",
+    "eslint": "^8.57.0",
+    "nestjs": "^0.0.1",
+    "patch-package": "^8.0.0"
   }
 }

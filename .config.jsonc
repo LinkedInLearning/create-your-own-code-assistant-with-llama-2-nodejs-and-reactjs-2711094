@@ -1,0 +1,6 @@
+{
+  "searchPaths": [
+    "."
+  ], // Look for config files in the current directory
+  "packageName": "eslint-config" // Customize if using a different config package name
+}

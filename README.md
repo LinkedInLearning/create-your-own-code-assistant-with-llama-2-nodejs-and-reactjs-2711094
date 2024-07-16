@@ -110,3 +110,19 @@ next run the migration again
 ```
 
 connect ollama to the db
+
+
+// generate the extension 
+either we will use blueprint or degit
+
+npx bp vscode/extension extension
+
+npx degit microsoft/vscode-webview-ui-toolkit-samples/frameworks/hello-world-react-vite extension
+
+// Update names of variables
+
+run test to ensure it shows in our env. 
+
+build ui chatbox, history
+
+connect to backend ensure it works e2e≠

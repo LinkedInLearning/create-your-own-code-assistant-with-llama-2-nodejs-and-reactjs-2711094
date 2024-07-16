@@ -2,6 +2,7 @@ version: '3.8'
 
 services:
   server:
+    network_mode: host
     env_file:
       - .env
     build: 
@@ -16,13 +17,15 @@ services:
       OLLAMA_URL: "${OLLAMA_URL}"
       DB_URL: "${DB_URL}"
   ollama:
+    network_mode: host
     env_file:
       - .env
     image: ollama/ollama:latest
     ports:
       - "11434:11434"
   db:
-    image: ankane/pgvector
+    network_mode: host
+    image: pgvector/pgvector:pg16
     ports:
       - 5432:5432
     volumes:
