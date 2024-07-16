@@ -1,0 +1,106 @@
+diff --git a/node_modules/langchain/dist/document_loaders/fs/directory.cjs b/node_modules/langchain/dist/document_loaders/fs/directory.cjs
+index 78b32b9..0cda893 100644
+--- a/node_modules/langchain/dist/document_loaders/fs/directory.cjs
++++ b/node_modules/langchain/dist/document_loaders/fs/directory.cjs
+@@ -29,7 +29,7 @@ exports.UnknownHandling = {
+  * ```
+  */
+ class DirectoryLoader extends base_js_1.BaseDocumentLoader {
+-    constructor(directoryPath, loaders, recursive = true, unknown = exports.UnknownHandling.Warn) {
++    constructor(directoryPath, loaders, recursive = true, unknown = exports.UnknownHandling.Warn, exclude_globs = []) {
+         super();
+         Object.defineProperty(this, "directoryPath", {
+             enumerable: true,
+@@ -54,6 +54,12 @@ class DirectoryLoader extends base_js_1.BaseDocumentLoader {
+             configurable: true,
+             writable: true,
+             value: unknown
++        });
++            Object.defineProperty(this, "exclude_globs", {
++            enumerable: true,
++            configurable: true,
++            writable: true,
++            value: exclude_globs
+         });
+         if (Object.keys(loaders).length === 0) {
+             throw new Error("Must provide at least one loader");
+@@ -80,11 +86,25 @@ class DirectoryLoader extends base_js_1.BaseDocumentLoader {
+         const { readdir, extname, resolve } = await DirectoryLoader.imports();
+         const files = await readdir(this.directoryPath, { withFileTypes: true });
+         const documents = [];
++        //console.log('thi si the one', this.exclude_globs)
+         for (const file of files) {
+             const fullPath = resolve(this.directoryPath, file.name);
+-            if (file.isDirectory()) {
++
++            const exclude = this.exclude_globs.every(pattern => {
++                try { 
++                    //console.log(pattern, fullPath)
++
++                    const match = !(new RegExp(`^${pattern}$`)).test(fullPath);
++                    //console.log('match', match)
++                    return match
++                } catch(e) {
++                    console.log(e)
++                }
++            });
++           // console.log(`${file.name}, ${exclude}`);
++            if (file.isDirectory() && exclude) {
+                 if (this.recursive) {
+-                    const loader = new DirectoryLoader(fullPath, this.loaders, this.recursive, this.unknown);
++                    const loader = new DirectoryLoader(fullPath, this.loaders, this.recursive, this.unknown, this.exclude_globs);
+                     documents.push(...(await loader.load()));
+                 }
+             }
+diff --git a/node_modules/langchain/dist/document_loaders/fs/directory.d.ts b/node_modules/langchain/dist/document_loaders/fs/directory.d.ts
+index 1dec27b..0feff3c 100644
+--- a/node_modules/langchain/dist/document_loaders/fs/directory.d.ts
++++ b/node_modules/langchain/dist/document_loaders/fs/directory.d.ts
+@@ -44,7 +44,7 @@ export declare class DirectoryLoader extends BaseDocumentLoader {
+     loaders: LoadersMapping;
+     recursive: boolean;
+     unknown: UnknownHandling;
+-    constructor(directoryPath: string, loaders: LoadersMapping, recursive?: boolean, unknown?: UnknownHandling);
++    constructor(directoryPath: string, loaders: LoadersMapping, recursive?: boolean, unknown?: UnknownHandling, exclude_globs?: string[]);
+     /**
+      * Loads the documents from the directory. If a file is a directory and
+      * `recursive` is `true`, it recursively loads documents from the
+diff --git a/node_modules/langchain/dist/document_loaders/fs/directory.js b/node_modules/langchain/dist/document_loaders/fs/directory.js
+index bcb12f2..11cb07b 100644
+--- a/node_modules/langchain/dist/document_loaders/fs/directory.js
++++ b/node_modules/langchain/dist/document_loaders/fs/directory.js
+@@ -26,7 +26,7 @@ export const UnknownHandling = {
+  * ```
+  */
+ export class DirectoryLoader extends BaseDocumentLoader {
+-    constructor(directoryPath, loaders, recursive = true, unknown = UnknownHandling.Warn) {
++    constructor(directoryPath, loaders, recursive = true, unknown = UnknownHandling.Warn, excludes_glob = []) {
+         super();
+         Object.defineProperty(this, "directoryPath", {
+             enumerable: true,
+@@ -51,6 +51,12 @@ export class DirectoryLoader extends BaseDocumentLoader {
+             configurable: true,
+             writable: true,
+             value: unknown
++        });
++         Object.defineProperty(this, "exclude_glob", {
++            enumerable: true,
++            configurable: true,
++            writable: true,
++            value: unknown
+         });
+         if (Object.keys(loaders).length === 0) {
+             throw new Error("Must provide at least one loader");
+@@ -79,9 +85,10 @@ export class DirectoryLoader extends BaseDocumentLoader {
+         const documents = [];
+         for (const file of files) {
+             const fullPath = resolve(this.directoryPath, file.name);
+-            if (file.isDirectory()) {
++            console.log('checking')
++            if (file.isDirectory() && this.excludes_glob.every(path => !(new regex(path)).match(file.path))) {
+                 if (this.recursive) {
+-                    const loader = new DirectoryLoader(fullPath, this.loaders, this.recursive, this.unknown);
++                    const loader = new DirectoryLoader(fullPath, this.loaders, this.recursive, this.unknown, this.excludes_glob);
+                     documents.push(...(await loader.load()));
+                 }
+             }
