@@ -25,9 +25,11 @@
   },
   "dependencies": {
     "@langchain/community": "^0.0.50",
+    "@nestjs/axios": "^3.0.2",
     "@nestjs/common": "^10.0.0",
     "@nestjs/core": "^10.0.0",
     "@nestjs/platform-express": "^10.0.0",
+    "axios": "^1.7.2",
     "cosmiconfig": "^9.0.0",
     "langchain": "^0.1.34",
     "nest-commander": "^3.12.5",

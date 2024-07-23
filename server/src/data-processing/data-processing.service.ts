@@ -1,6 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { ESLint } from 'eslint'; // Assuming ESLint is installed globally
-import { PrismaClient, Prisma } from '@prisma/client';
 
 import {
   DirectoryLoader,
@@ -8,11 +6,9 @@ import {
 } from 'langchain/document_loaders/fs/directory';
 import { TextLoader } from 'langchain/document_loaders/fs/text';
 import { RecursiveCharacterTextSplitter } from 'langchain/text_splitter';
-import { PrismaVectorStore } from '@langchain/community/vectorstores/prisma';
 
-import { OllamaEmbeddings } from '@langchain/community/embeddings/ollama';
-import path from 'node:path';
 import { ConfigService } from '@nestjs/config';
+import { DatabaseService } from 'src/database/database.service';
 
 /**
  * next make an agent and chain that is called from the rest endpoint
@@ -20,10 +16,10 @@ import { ConfigService } from '@nestjs/config';
 
 @Injectable()
 export class DataProcessingService {
-  private readonly eslint = new ESLint({ fix: false });
-  private readonly prisma = new PrismaClient();
-  private vectorStore;
-  constructor(private config: ConfigService) {}
+  constructor(
+    private config: ConfigService,
+    private databaseService: DatabaseService,
+  ) {}
 
   async extractAndStoreData(directory): Promise<void> {
     console.log('this is the current dir', directory);
@@ -31,7 +27,7 @@ export class DataProcessingService {
     const docs = await this.loadWorkspace(directory);
     const texts = await this.extract(docs);
     // figure out incremental updates
-    this.vectorStore = await this.storeGraph(texts);
+     await this.storeGraph(texts);
   }
   /**
    * Loads the current workspace into embedings
@@ -88,25 +84,11 @@ export class DataProcessingService {
 
   async storeGraph(texts: any): Promise<any> {
     // This will evetually be a langchain langgraph
-    const vectorStore = await PrismaVectorStore.fromDocuments(
-      texts,
-      new OllamaEmbeddings({
-        model: this.config.get<string>('model'), //'llama2', // default value
-        baseUrl: this.config.get<string>('url'), //'http://localhost:11434', // default value
-        requestOptions:
-          this.config.get<Record<string, string>>('requestOptions'),
-      }),
-      {
-        db: this.prisma,
-        prisma: Prisma,
-        tableName: this.config.get<string>('database.tableName'), //'documents',
-        vectorColumnName: this.config.get<string>('database.columnName'), //match_documents',
-        columns: {
-          id: PrismaVectorStore.IdColumn,
-          content: PrismaVectorStore.ContentColumn,
-        },
-      },
-    );
-    return vectorStore;
+    this.databaseService.initVectorStore(texts);
+  }
+
+  async retrieveRelatedInformation(prompt: string): Promise<any> {
+    // Placeholder implementation
+    return 'Placeholder related information';
   }
 }

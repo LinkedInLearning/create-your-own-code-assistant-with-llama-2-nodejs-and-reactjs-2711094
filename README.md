@@ -126,3 +126,8 @@ run test to ensure it shows in our env.
 build ui chatbox, history
 
 connect to backend ensure it works e2e≠
+
+
+startNode -> retriever -> vectordb
+                                  -> graders
+                       -> websearch

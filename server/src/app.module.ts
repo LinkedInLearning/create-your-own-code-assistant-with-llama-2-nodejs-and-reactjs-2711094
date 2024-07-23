@@ -6,8 +6,8 @@ import { CliModule } from './cli/cli.module';
 import { LogService } from './log/log.service';
 import CustomConfigLoader from './custom-config/custom-config.service';
 import { ConfigModule } from '@nestjs/config';
-import { IngestCommand } from './cli/ingest.command';
 import { PromptService } from './prompt/prompt.service';
+import { DatabaseService } from './database/database.service';
 
 @Module({
   imports: [
@@ -18,7 +18,13 @@ import { PromptService } from './prompt/prompt.service';
       load: [CustomConfigLoader],
     }),
   ],
-  //controllers: [AppController],
-  providers: [AppService, DataProcessingService, LogService, PromptService],
+  controllers: [AppController],
+  providers: [
+    AppService,
+    DataProcessingService,
+    LogService,
+    PromptService,
+    DatabaseService,
+  ],
 })
 export class AppModule {}

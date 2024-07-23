@@ -8,6 +8,8 @@ export class PromptService {
     private readonly dataProcessingService: DataProcessingService,
     private readonly ollamaService: OllamaService,
   ) {}
+  /// We need to add our ollama chat to here and format the prompts
+  
 
   async handleChatPrompt(prompt: string): Promise<string> {
     // Step 1: Send prompt to Ollama

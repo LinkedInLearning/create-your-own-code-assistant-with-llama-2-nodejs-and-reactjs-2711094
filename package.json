@@ -14,7 +14,10 @@
     "@prisma/client": "^5.11.0",
     "cosmiconfig": "^9.0.0",
     "eslint": "^8.57.0",
+    "langchain": "^0.2.10",
     "nestjs": "^0.0.1",
-    "patch-package": "^8.0.0"
+    "patch-package": "^8.0.0",
+    "zod": "^3.23.8",
+    "zod-to-json-schema": "^3.23.1"
   }
 }
