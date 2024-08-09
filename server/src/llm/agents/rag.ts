@@ -1,6 +1,6 @@
-import { AgentExecutor, create}
+//import { AgentExecutor, create}
 
-export class RetrieverAgent extends Agent {
+/*export class RetrieverAgent extends Agent {
   constructor() {
     super('retriever');
   }
@@ -12,4 +12,10 @@ export class RetrieverAgent extends Agent {
     // Return the retrieved data
     return data;
   }
-}
+}///////8*/
+
+/**
+ * Tool Node
+ * Router Node
+ * Agent Node
+ */

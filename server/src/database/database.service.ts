@@ -12,14 +12,20 @@ export class DatabaseService {
   constructor(
     private ollamaService: OllamaService,
     private configService: ConfigService,
-  ) {}
+  ) {
+    this.initVectorStore();
+  }
 
   getVectorStore() {
+    console.log('getting vector store');
     return this.vectorStore;
   }
-  async initVectorStore(documents): Promise<void> {
-    this.vectorStore = await PrismaVectorStore.fromDocuments(
-      documents,
+  async addDocuments(documents: any[]): Promise<void> {
+    await this.vectorStore.addDocuments(documents);
+  }
+  async initVectorStore(): Promise<void> {
+    console.log('calling init vector store');
+    this.vectorStore = await new PrismaVectorStore(
       this.ollamaService.getEmbeddings(),
       {
         db: this.prisma,

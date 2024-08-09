@@ -8,21 +8,21 @@ async function bootstrap() {
   await app.listen(3000);
 }
 async function bootstrapCli() {
-  const cliCommand = 'cusco';
-  const cliExecutable = './bin/cusco';
+  const cliCommand = 'kuzco';
+  const cliExecutable = './bin/kuzco';
 
-  /*const app = await CommandFactory.createWithoutRunning(AppModule, {
+  const app = await CommandFactory.createWithoutRunning(AppModule, {
     completion: {
       cmd: cliCommand,
-      fig: true,
+      //fig: true,
       nativeShell: {
         executablePath: cliExecutable,
       },
     },
   });
-  await CommandFactory.runApplication(app);*/
+  await CommandFactory.runApplication(app);
   await CommandFactory.run(AppModule, ['warn', 'error']);
 }
 
-bootstrapCli();
-//bootstrap();
+//bootstrapCli();
+bootstrap();

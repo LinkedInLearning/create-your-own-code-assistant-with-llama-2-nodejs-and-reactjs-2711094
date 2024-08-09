@@ -1,8 +1,9 @@
 FROM ollama/ollama:latest
 
-# Expose default Ollama API port "11434"
 EXPOSE 11434
+ENTRYPOINT [ "/bin/ollama" ]
+RUN /bin/ollama create example -f Modelfile
+RUN ollama pull "llama2"
 
-# (Optional) Customize Ollama command if needed
-# Replace "-m cpu" with your desired memory allocation or other options
-CMD ["ollama", "-m", "cpu"]
+
+CMD ["serve"]

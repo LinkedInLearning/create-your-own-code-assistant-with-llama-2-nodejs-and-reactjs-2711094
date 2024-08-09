@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "start-all": "docker-compose up"
+    "start-all": "docker-compose up",
+    "start": "cd server; npm run start:debug"
   },
   "devDependencies": {
     "@types/node": "^20.11.24",

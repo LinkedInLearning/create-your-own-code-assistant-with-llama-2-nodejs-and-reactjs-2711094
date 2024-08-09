@@ -1,13 +1,14 @@
-import { Injectable } from '@nestjs/common';
+/* import { Injectable } from '@nestjs/common';
 import { DatabaseService } from 'src/database/database.service';
 @Injectable()
 export class RetrieverService {
-  readonly retriever: unknown;
+  readonly retriever;
   constructor(private readonly databaseService: DatabaseService) {
     this.retriever = this.databaseService.getVectorStore().asRetriever();
   }
-  getRetriever(): unknown {
+  getRetriever(): any {
     return this.retriever;
   }
   // Add your methods and logic here
 }
+ */

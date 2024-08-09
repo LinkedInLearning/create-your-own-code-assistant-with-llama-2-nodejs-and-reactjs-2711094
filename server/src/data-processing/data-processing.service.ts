@@ -27,7 +27,7 @@ export class DataProcessingService {
     const docs = await this.loadWorkspace(directory);
     const texts = await this.extract(docs);
     // figure out incremental updates
-     await this.storeGraph(texts);
+    await this.storeGraph(texts);
   }
   /**
    * Loads the current workspace into embedings
@@ -84,11 +84,6 @@ export class DataProcessingService {
 
   async storeGraph(texts: any): Promise<any> {
     // This will evetually be a langchain langgraph
-    this.databaseService.initVectorStore(texts);
-  }
-
-  async retrieveRelatedInformation(prompt: string): Promise<any> {
-    // Placeholder implementation
-    return 'Placeholder related information';
+    this.databaseService.addDocuments(texts);
   }
 }

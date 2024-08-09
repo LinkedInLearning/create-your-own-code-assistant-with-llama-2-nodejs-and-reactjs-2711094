@@ -1,6 +1,6 @@
 {
-  "url": "http://0.0.0.0:11434",
-  "model": "llama2",
+  "url": "http://0.0.0.0:7869",
+  "model": "codellama",
   "requestOptions": {
     "useMMap": true,
     "numThread": 6,

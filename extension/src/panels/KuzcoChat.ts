@@ -46,8 +46,4 @@ const KuzcoChat = {
       // Handle error
     }
   }
-
-  determineUserIntent(prompt: string) {
-    // Logic to determine user intent
-  },
 };

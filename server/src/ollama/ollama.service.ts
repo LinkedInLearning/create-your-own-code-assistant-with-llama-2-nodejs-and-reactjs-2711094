@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { HttpService } from '@nestjs/axios';
+//import { HttpService } from '@nestjs/axios';
 import { ConfigService } from '@nestjs/config';
-import { AxiosResponse } from 'axios';
-import { firstValueFrom } from 'rxjs';
+//import { AxiosResponse } from 'axios';
+//import { firstValueFrom } from 'rxjs';
 import { OllamaEmbeddings } from '@langchain/community/embeddings/ollama';
 import { ChatOllama } from '@langchain/community/chat_models/ollama';
 
@@ -12,7 +12,7 @@ export class OllamaService {
   // CHat
   chat: ChatOllama;
   constructor(
-    private httpService: HttpService,
+    //private httpService: HttpService,
     private configService: ConfigService,
   ) {
     this.embedings = new OllamaEmbeddings({
@@ -35,7 +35,8 @@ export class OllamaService {
     return this.embedings;
   }
   async sendPrompt(prompt: string): Promise<string> {
-    try {
+    this.chat.invoke(prompt);
+    /*try {
       const apiUrl = this.configService.get<string>(
         'OLLAMA_API_URL',
         'https://api.ollama.example.com/send-prompt',
@@ -47,6 +48,9 @@ export class OllamaService {
     } catch (error) {
       console.error('Error sending prompt to Ollama:', error);
       throw new Error('Failed to send prompt to Ollama');
-    }
+    }*/
+    return new Promise((resolve, reject) => {
+      resolve('response');
+    });
   }
 }

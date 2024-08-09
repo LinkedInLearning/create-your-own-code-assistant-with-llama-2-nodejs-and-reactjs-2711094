@@ -1,6 +1,19 @@
 version: '3.8'
 
 services:
+  autotrain:
+    network_mode: host
+    env_file:
+      - .env
+    image: huggingface/autotrain-advanced:latest
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./autotrain:/app
+    command: ["python", "app.py"]
+    environment:
+      OLLAMA_URL: "${OLLAMA_URL}"
+      DB_URL: "${DB_URL}"
   server:
     network_mode: host
     env_file:
@@ -16,13 +29,25 @@ services:
     environment:
       OLLAMA_URL: "${OLLAMA_URL}"
       DB_URL: "${DB_URL}"
-  ollama:
+  ollama2:
     network_mode: host
     env_file:
       - .env
-    image: ollama/ollama:latest
+    volumes:
+      - ./ollama/ollama:/root/.ollama
+    build: 
+      context: ./
+      dockerfile: .dockerfiles/ollama.dockerfile
     ports:
       - "11434:11434"
+    deploy:
+       resources:
+        limits:
+          memory: 10gb
+        reservations:
+          memory: 10gb
+    mem_reservation: 10gb
+    mem_limit: 10gb
   db:
     network_mode: host
     image: pgvector/pgvector:pg16
@@ -37,6 +62,48 @@ services:
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
       POSTGRES_DB: "${POSTGRES_DB}"
       POSTGRES_HOST_AUTH_METHOD: "trust"
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - 7869:11434
+    volumes:
+      - .:/code
+      - ./ollama/ollama:/root/.ollama
+    container_name: ollama
+    pull_policy: always
+    tty: true
+    restart: always
+    environment:
+      - OLLAMA_KEEP_ALIVE=24h
+      - OLLAMA_HOST=0.0.0.0
+    networks:
+      - ollama-docker
+
+  ollama-webui:
+    image: ghcr.io/open-webui/open-webui:main
+    container_name: ollama-webui
+    volumes:
+      - ./ollama/ollama-webui:/app/backend/data
+    depends_on:
+      - ollama
+    ports:
+      - 8080:8080
+    environment: # https://docs.openwebui.com/getting-started/env-configuration#default_models
+      - OLLAMA_BASE_URLS=http://host.docker.internal:7869 #comma separated ollama hosts
+      - ENV=dev
+      - WEBUI_AUTH=False
+      - WEBUI_NAME=valiantlynx AI
+      - WEBUI_URL=http://localhost:8080
+      - WEBUI_SECRET_KEY=t0p-s3cr3t
+    extra_hosts:
+      - host.docker.internal:host-gateway
+    restart: unless-stopped
+    networks:
+      - ollama-docker
+
+networks:
+  ollama-docker:
+    external: false
 volumes:
   server:
   shared-config: # Optional for persistent data/configs (adjust paths)
